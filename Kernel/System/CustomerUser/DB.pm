@@ -243,7 +243,10 @@ sub CustomerSearch {
         );
 
         $SQL .= $QueryCondition{SQL};
-        push @Bind, @{ $QueryCondition{Values} };
+        #fix for error 500 while performing the search with "\" sign at the end - http://bugs.otrs.org/show_bug.cgi?id=11930
+        if( $QueryCondition{Values} ){
+            push @Bind, @{ $QueryCondition{Values} };
+        }
 
         $SQL .= ' ';
     }
